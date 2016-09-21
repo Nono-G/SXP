@@ -1,0 +1,2 @@
+Un bon site sur JPA
+http://www.objectdb.com/java/jpa/persistence/store
