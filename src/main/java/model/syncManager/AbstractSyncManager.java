@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 
 
 public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity>{
@@ -61,10 +62,23 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	}
 
 	@Override
-	public void end() {
-		em.getTransaction().commit();
+	
+	public void check(){
+		//néant
 	}
-
+	
+	@Override
+	public boolean end() {
+		try{
+		em.getTransaction().commit();
+		return true;
+		}catch(RollbackException r){
+			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
+			//Renvoyer un truc pour signaler l'erreur ???
+			return false;
+		}
+	}
+                 
 	@Override
 	public void persist(Entity entity) {
 		em.persist(entity);

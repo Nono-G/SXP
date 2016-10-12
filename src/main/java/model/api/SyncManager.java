@@ -58,5 +58,12 @@ public interface SyncManager<Entity> {
 	/**
 	 * end (commit) the transaction
 	 */
-	public void end();
+	public boolean end();
+	
+	/**
+	 * 
+	 * Vérifie à l'aide d'un validateur si les éléments de la Watchlist sont valides ou non.
+	 * sous quelle forme renvoyer le résultat ?
+	 */
+	public void check();
 }
