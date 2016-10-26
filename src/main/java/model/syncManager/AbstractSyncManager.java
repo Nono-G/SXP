@@ -1,6 +1,8 @@
 package model.syncManager;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,6 +12,7 @@ import javax.persistence.RollbackException;
 
 
 public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity>{
+	protected Set<Entity> watchlist;
 	private EntityManagerFactory factory;
 	private EntityManager em;
 	private Class<?> theClass;
@@ -18,6 +21,7 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		factory = Persistence.createEntityManagerFactory(unitName);
 		this.theClass = c;
 		em = factory.createEntityManager();
+		watchlist = new HashSet<Entity>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -69,19 +73,23 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	
 	@Override
 	public boolean end() {
+		//Valider toutes les entités de la watchlist
+		//  A FAIRE
 		try{
-		em.getTransaction().commit();
-		return true;
+			em.getTransaction().commit();
+			return true;
 		}catch(RollbackException r){
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
 			//Renvoyer un truc pour signaler l'erreur ???
 			return false;
 		}
+		//End doit vider la WL puisque contains ne peut pas être appelé sur une transaction fermée.
 	}
                  
 	@Override
 	public void persist(Entity entity) {
 		em.persist(entity);
+		watchlist.add(entity);
 	}
 	
 	@Override
@@ -89,4 +97,7 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		return em.contains(entity);
 	}
 	
+	public void watchlist(){
+		//(EntityManagerImpl)em
+	}
 }
