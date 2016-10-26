@@ -66,4 +66,11 @@ public interface SyncManager<Entity> {
 	 * sous quelle forme renvoyer le résultat ?
 	 */
 	public void check();
+	
+	/**
+	 * Checks if a given entity is in 'managed' state for this manager.
+	 * @param entity
+	 * @return true if entity is managed, false otherwise
+	 */
+	public boolean contains(Entity entity);
 }

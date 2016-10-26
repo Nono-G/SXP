@@ -84,4 +84,9 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		em.persist(entity);
 	}
 	
+	@Override
+	public boolean contains(Entity entity){
+		return em.contains(entity);
+	}
+	
 }
