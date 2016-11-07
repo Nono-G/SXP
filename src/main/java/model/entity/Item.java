@@ -58,6 +58,7 @@ public class Item {
 	@Size(min = 2, max = 255)
 	private String username;
 	
+	//NOE : ATTENTION : Il sert à quoi celui-ci ? pourquoi le même nom XML ?
 	@XmlElement(name="username")
 	@NotNull
 	private String userid;

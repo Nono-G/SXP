@@ -75,6 +75,7 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		}catch(RollbackException r){
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
 			//Renvoyer un truc pour signaler l'erreur ???
+			//Ici il n'est pas possible de donner plus d'informations que Vrai ou Faux, cf l'atomicité des transactions SQL
 			return false;
 		}
 	}
