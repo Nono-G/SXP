@@ -73,8 +73,9 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@Override
 	public boolean end() {
 		try{
-		em.getTransaction().commit();
-		return true;
+			em.getTransaction().commit();
+			em.clear();
+			return true;
 		}catch(RollbackException r){
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
 			//Renvoyer un truc pour signaler l'erreur ???
@@ -101,7 +102,8 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Entity> watchlist() {
-		EntityManagerImpl emi = (EntityManagerImpl)em;
+		//EntityManagerImpl emi = (EntityManagerImpl)em;
+		EntityManagerImpl emi = em.unwrap(EntityManagerImpl.class);
 		Map<Object,Object> wlMap = emi.getActivePersistenceContext(null).getCloneMapping();
 		return (Collection<Entity>) wlMap.keySet();
 	}
