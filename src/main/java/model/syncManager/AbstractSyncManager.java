@@ -1,12 +1,15 @@
 package model.syncManager;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
+
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 
 
 public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity>{
@@ -89,5 +92,21 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	public boolean contains(Entity entity){
 		return em.contains(entity);
 	}
+
+	/**
+	 * Ici on fait des choses pas très propres !
+	 * Des casts pas trop vérifiés, il faut croiser les doigts
+	 * Des accès à des méthodes bien cachées qu'on ne comprend pas tout à fait,...
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Entity> watchlist() {
+		EntityManagerImpl emi = (EntityManagerImpl)em;
+		Map<Object,Object> wlMap = emi.getActivePersistenceContext(null).getCloneMapping();
+		return (Collection<Entity>) wlMap.keySet();
+	}
+	
+	
+
 	
 }

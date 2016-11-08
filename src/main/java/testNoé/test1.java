@@ -22,11 +22,11 @@ public class test1 {
 		ism.persist(i);
 		System.out.println("Premier persist... OK");
 		i.setCreatedAt(new Date());
-		i.setDescription("Un objet ajouté pour tester");
-		i.setPbkey(new BigInteger("666",10));
-		i.setTitle("MonObj");
-		i.setUserid("NonoID");
-		i.setUsername("NonoNAME");
+		i.setDescription("Un objet ajouté pour tester2");
+		i.setPbkey(new BigInteger("6667",10));
+		i.setTitle("MonObj2");
+		i.setUserid("NonoID2");
+		i.setUsername("NonoNAME2");
 		System.out.println("Deuxième persist...");
 		ism.persist(i);
 		System.out.println("Deuxième persist... OK");
