@@ -66,6 +66,7 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 
 	@Override
 	
+	
 	public void check(){
 		//néant
 	}
