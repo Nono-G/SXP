@@ -88,7 +88,6 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	}
 
 	@Override
-	
 	public void check(){
 		//néant
 	}
@@ -123,6 +122,19 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
         }
 	}
 	
+	@Override
+    public boolean remove(Entity entity){
+        try
+        {
+            em.remove(entity);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
 	@Override
 	public boolean contains(Entity entity){
 		try
