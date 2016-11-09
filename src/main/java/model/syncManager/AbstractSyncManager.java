@@ -13,7 +13,6 @@ import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 
 
 public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity>{
-	//protected Set<Entity> watchlist;
 	private EntityManagerFactory factory;
 	private EntityManager em;
 	private Class<?> theClass;
@@ -22,7 +21,6 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		factory = Persistence.createEntityManagerFactory(unitName);
 		this.theClass = c;
 		em = factory.createEntityManager();
-		//watchlist = new HashSet<Entity>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -78,6 +76,7 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		//  A FAIRE
 		try{
 			em.getTransaction().commit();
+			em.clear(); //Ici on détache toutes les entitées. Devrait-on plutot fermer (em.close()) ?
 			return true;
 		}catch(RollbackException r){
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
@@ -91,7 +90,6 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@Override
 	public void persist(Entity entity) {
 		em.persist(entity);
-		//watchlist.add(entity);
 	}
 	
 	@Override
@@ -107,7 +105,8 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Entity> watchlist() {
-		EntityManagerImpl emi = (EntityManagerImpl)em;
+		//EntityManagerImpl emi = (EntityManagerImpl)em;
+		EntityManagerImpl emi = em.unwrap(EntityManagerImpl.class);
 		Map<Object,Object> wlMap = emi.getActivePersistenceContext(null).getCloneMapping();
 		return (Collection<Entity>) wlMap.keySet();
 	}	
