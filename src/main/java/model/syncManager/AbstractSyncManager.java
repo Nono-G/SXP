@@ -95,15 +95,19 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	
 	@Override
 	public boolean end() {
+		//Valider toutes les entités de la watchlist
+		//  A FAIRE
 		try{
-		em.getTransaction().commit();
-		return true;
+			em.getTransaction().commit();
+			em.clear(); //Ici on détache toutes les entitées. Devrait-on plutot fermer (em.close()) ?
+			return true;
 		}catch(RollbackException r){
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
 			//Renvoyer un truc pour signaler l'erreur ???
 			//Ici il n'est pas possible de donner plus d'informations que Vrai ou Faux, cf l'atomicité des transactions SQL
 			return false;
 		}
+		//End doit vider la WL puisque contains ne peut pas être appelé sur une transaction fermée.
 	}
                  
 	@Override
@@ -139,12 +143,9 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Entity> watchlist() {
-		EntityManagerImpl emi = (EntityManagerImpl)em;
+		//EntityManagerImpl emi = (EntityManagerImpl)em;
+		EntityManagerImpl emi = em.unwrap(EntityManagerImpl.class);
 		Map<Object,Object> wlMap = emi.getActivePersistenceContext(null).getCloneMapping();
 		return (Collection<Entity>) wlMap.keySet();
-	}
-	
-	
-
-	
+	}	
 }
