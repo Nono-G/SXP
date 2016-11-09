@@ -48,12 +48,12 @@ public interface SyncManager<Entity> {
 	 * Persist(insert) this instance to the database
 	 * @param entity
 	 */
-	public void persist(Entity entity);
+	public boolean persist(Entity entity);
 	
 	/**
 	 * Begin the transaction
 	 */
-	public void begin();
+	public boolean begin();
 	
 	/**
 	 * end (commit) the transaction
@@ -78,4 +78,9 @@ public interface SyncManager<Entity> {
 	 * Gives a list of the entities currently in a watched state.
 	 */
 	public Collection<Entity> watchlist();
+	
+	/**
+	 * Supprimer une entité
+	 */
+	public boolean remove(Entity entity);
 }
