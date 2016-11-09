@@ -26,14 +26,29 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@SuppressWarnings("unchecked")
 	@Override
 	public Entity findOneById(String id) {
-		return (Entity) em.find(theClass, id);
+        try
+        {
+            return (Entity) em.find(theClass, id);
+	
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Entity> findAll() {
-		Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t");
-		return q.getResultList();
+		try
+        {
+            Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t");
+		    return q.getResultList();
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -60,8 +75,16 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	}
 
 	@Override
-	public void begin() {
-		em.getTransaction().begin();
+	public boolean begin() {
+		try
+        {
+            em.getTransaction().begin();
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
 	}
 
 	@Override
@@ -84,13 +107,28 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	}
                  
 	@Override
-	public void persist(Entity entity) {
-		em.persist(entity);
+	public boolean persist(Entity entity) {
+		try
+        {
+            em.persist(entity);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
 	}
 	
 	@Override
 	public boolean contains(Entity entity){
-		return em.contains(entity);
+		try
+        {
+            return em.contains(entity);
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
 	}
 
 	/**

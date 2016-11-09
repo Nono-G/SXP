@@ -48,12 +48,12 @@ public interface SyncManager<Entity> {
 	 * Persist(insert) this instance to the database
 	 * @param entity
 	 */
-	public void persist(Entity entity);
+	public boolean persist(Entity entity);
 	
 	/**
 	 * Begin the transaction
 	 */
-	public void begin();
+	public boolean begin();
 	
 	/**
 	 * end (commit) the transaction
