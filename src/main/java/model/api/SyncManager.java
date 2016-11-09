@@ -73,4 +73,9 @@ public interface SyncManager<Entity> {
 	 * @return true if entity is managed, false otherwise
 	 */
 	public boolean contains(Entity entity);
+	
+	/**
+	 * Gives a list of the entities currently in a watched state.
+	 */
+	public Collection<Entity> watchlist();
 }

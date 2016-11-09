@@ -1,8 +1,7 @@
 package model.syncManager;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,9 +9,11 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
 
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
+
 
 public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity>{
-	protected Set<Entity> watchlist;
+	//protected Set<Entity> watchlist;
 	private EntityManagerFactory factory;
 	private EntityManager em;
 	private Class<?> theClass;
@@ -21,7 +22,7 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		factory = Persistence.createEntityManagerFactory(unitName);
 		this.theClass = c;
 		em = factory.createEntityManager();
-		watchlist = new HashSet<Entity>();
+		//watchlist = new HashSet<Entity>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -81,6 +82,7 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		}catch(RollbackException r){
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
 			//Renvoyer un truc pour signaler l'erreur ???
+			//Ici il n'est pas possible de donner plus d'informations que Vrai ou Faux, cf l'atomicité des transactions SQL
 			return false;
 		}
 		//End doit vider la WL puisque contains ne peut pas être appelé sur une transaction fermée.
@@ -89,15 +91,24 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@Override
 	public void persist(Entity entity) {
 		em.persist(entity);
-		watchlist.add(entity);
+		//watchlist.add(entity);
 	}
 	
 	@Override
 	public boolean contains(Entity entity){
 		return em.contains(entity);
 	}
-	
-	public void watchlist(){
-		//(EntityManagerImpl)em
-	}
+
+	/**
+	 * Ici on fait des choses pas très propres !
+	 * Des casts pas trop vérifiés, il faut croiser les doigts
+	 * Des accès à des méthodes bien cachées qu'on ne comprend pas tout à fait,...
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Entity> watchlist() {
+		EntityManagerImpl emi = (EntityManagerImpl)em;
+		Map<Object,Object> wlMap = emi.getActivePersistenceContext(null).getCloneMapping();
+		return (Collection<Entity>) wlMap.keySet();
+	}	
 }
