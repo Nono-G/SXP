@@ -29,6 +29,8 @@ public class Test2 {
 		ism.persist(i2);
 		testContains(ism, i2);
 		dumpWL(ism);
+		System.out.println("Modif Bateau pirate");
+		i2.setDescription("Bateau pirate rose avec des fleurs");
 		System.out.println("find all");
 		ism.findAll();
 		dumpWL(ism);
@@ -54,9 +56,9 @@ public class Test2 {
 	
 	public static void dumpWL(ItemSyncManager ism){
 		Set<Item> items = (Set<Item>) ism.watchlist();
-		System.out.println("---- Watchlist ----");
+		System.out.println("**** Watchlist ****");
 		for (Item i : items){
-			System.out.println("**************");
+			System.out.println("------------");
 			System.out.println(i.getDescription());
 			System.out.println(i.getId());
 			System.out.println(i.getTitle());
@@ -65,7 +67,7 @@ public class Test2 {
 			System.out.println(i.getCreatedAt());
 			System.out.println(i.getPbkey());
 		}
-		System.out.println("-------------------");
+		System.out.println("******************");
 	}
 	
 	public static void testContains(ItemSyncManager ism, Item i){

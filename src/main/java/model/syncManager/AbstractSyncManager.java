@@ -26,14 +26,29 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	@SuppressWarnings("unchecked")
 	@Override
 	public Entity findOneById(String id) {
-		return (Entity) em.find(theClass, id);
+        try
+        {
+            return (Entity) em.find(theClass, id);
+	
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Entity> findAll() {
-		Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t");
-		return q.getResultList();
+		try
+        {
+            Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t");
+		    return q.getResultList();
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -60,21 +75,30 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 	}
 
 	@Override
-	public void begin() {
-		em.getTransaction().begin();
+	public boolean begin() {
+		try
+        {
+            em.getTransaction().begin();
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
 	}
 
 	@Override
-	
 	public void check(){
 		//néant
 	}
 	
 	@Override
 	public boolean end() {
+		//Valider toutes les entités de la watchlist
+		//  A FAIRE
 		try{
 			em.getTransaction().commit();
-			em.clear();
+			em.clear(); //Ici on détache toutes les entitées. Devrait-on plutot fermer (em.close()) ?
 			return true;
 		}catch(RollbackException r){
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
@@ -82,16 +106,45 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 			//Ici il n'est pas possible de donner plus d'informations que Vrai ou Faux, cf l'atomicité des transactions SQL
 			return false;
 		}
+		//End doit vider la WL puisque contains ne peut pas être appelé sur une transaction fermée.
 	}
                  
 	@Override
-	public void persist(Entity entity) {
-		em.persist(entity);
+	public boolean persist(Entity entity) {
+		try
+        {
+            em.persist(entity);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
 	}
 	
 	@Override
+    public boolean remove(Entity entity){
+        try
+        {
+            em.remove(entity);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
+	@Override
 	public boolean contains(Entity entity){
-		return em.contains(entity);
+		try
+        {
+            return em.contains(entity);
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
 	}
 
 	/**
@@ -106,9 +159,5 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		EntityManagerImpl emi = em.unwrap(EntityManagerImpl.class);
 		Map<Object,Object> wlMap = emi.getActivePersistenceContext(null).getCloneMapping();
 		return (Collection<Entity>) wlMap.keySet();
-	}
-	
-	
-
-	
+	}	
 }
