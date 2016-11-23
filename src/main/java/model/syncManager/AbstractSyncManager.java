@@ -159,5 +159,5 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 		EntityManagerImpl emi = em.unwrap(EntityManagerImpl.class);
 		Map<Object,Object> wlMap = emi.getActivePersistenceContext(null).getCloneMapping();
 		return (Collection<Entity>) wlMap.keySet();
-	}	
+	}
 }

@@ -22,7 +22,7 @@ public class Test2 {
 		dumpWL(ism);
 		testContains(ism, i2);
 		System.out.println("find");
-		Item i = ism.findOneById("4D7163B9-3CCC-43A9-8B8F-BAF6A3983540");
+		Item i = ism.findOneById("DA5E08FC-0310-413E-9554-FC48D5B62B2D");
 		dumpWL(ism);
 		System.out.println("persist");
 		ism.persist(i2);
