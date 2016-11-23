@@ -25,6 +25,7 @@ public class Test2 {
 		Item i = ism.findOneById("DA5E08FC-0310-413E-9554-FC48D5B62B2D");
 		dumpWL(ism);
 		System.out.println("persist");
+		i.setTitle("J'ai changé");
 		ism.persist(i2);
 		testContains(ism, i2);
 		dumpWL(ism);
@@ -37,15 +38,20 @@ public class Test2 {
 		testContains(ism, i);
 		ism.end();
 		System.out.println("end");
+		i.setTitle("J'ai changé 2 fois");
 		dumpWL(ism);
 		testContains(ism, i2);
 		testContains(ism, i);
 		System.out.println("rebegin");
 		ism.begin();
+		i.setTitle("J'ai changé 3 fois");
 		testContains(ism, i2);
 		testContains(ism, i);
 		dumpWL(ism);
 		ism.end();
+		i.setTitle("J'ai changé 4 fois");
+		dumpWL(ism);
+		
 	}
 	
 	public static void dumpWL(ItemSyncManager ism){
