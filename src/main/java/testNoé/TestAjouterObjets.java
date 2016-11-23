@@ -43,14 +43,19 @@ public class TestAjouterObjets {
 		i4.setUserid("id126");
 		i4.setUsername("Noé Goudian");
 		
+		Item i5 = new Item();
+		i5.setDescription("Le vilain petit canard");
+		
 		ism.begin();
 		
 		ism.persist(i4);
 		ism.persist(i3);
 		ism.persist(i2);
 		ism.persist(i1);
+		//ism.persist(i5);
 		
 		ism.end();
+		System.out.println("Fini");
 	}
 
 }

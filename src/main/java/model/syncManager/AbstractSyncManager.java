@@ -104,7 +104,8 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
 			//Renvoyer un truc pour signaler l'erreur ???
 			//Ici il n'est pas possible de donner plus d'informations que Vrai ou Faux, cf l'atomicité des transactions SQL
-			return false;
+			//return false;
+			throw r;
 		}
 		//End doit vider la WL puisque contains ne peut pas être appelé sur une transaction fermée.
 	}
@@ -118,7 +119,8 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
         }
         catch(Exception e)
         {
-            return false;
+        	throw e;
+            //return false;
         }
 	}
 	
