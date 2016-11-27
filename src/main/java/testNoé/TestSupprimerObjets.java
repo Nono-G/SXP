@@ -25,6 +25,7 @@ public class TestSupprimerObjets {
 			ism.remove(i);
 		}
 		ism.end();
+		System.out.println("Fini");
 	}
 	
 	public static void dumpWL(ItemSyncManager ism){
