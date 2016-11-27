@@ -1,5 +1,6 @@
 package model.api;
 
+import java.util.Collection;
 /**
  * Asynchronous entity manager. Can handle network things
  * @author Julien Prudhomme
@@ -35,15 +36,33 @@ public interface Manager<Entity> {
 	 * Persist the entity in the manager
 	 * @param entity
 	 */
-	public void persist(Entity entity);
+	public boolean persist(Entity entity);
 	
 	/**
 	 * Begin a transaction
 	 */
-	public void begin();
+	public boolean begin();
 	
 	/**
 	 * End a transaction
 	 */
-	public void end();
+	public boolean end();
+	
+	/**
+	 * Remove an entity from the DB
+	 * @param entity
+	 */
+	public boolean remove(Entity entity);
+	
+	/**
+	 * Is the entity in a "managed state" ?
+	 * i.e. Is it persistent ?
+	 * @param entity
+	 */
+	public boolean contains(Entity entity);
+	
+	/**
+	 * Returns a list of the currentrly "managed" entities.
+	 */
+	public Collection<Entity> watchlist();
 }

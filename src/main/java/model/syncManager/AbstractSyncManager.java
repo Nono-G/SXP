@@ -111,38 +111,29 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
                  
 	@Override
 	public boolean persist(Entity entity) {
-		try
-        {
+		try{
             em.persist(entity);
             return true;
-        }
-        catch(Exception e)
-        {
+        }catch(Exception e){
             return false;
         }
 	}
 	
 	@Override
     public boolean remove(Entity entity){
-        try
-        {
+        try{
             em.remove(entity);
             return true;
-        }
-        catch(Exception e)
-        {
+        }catch(Exception e){
             return false;
         }
     }
 
 	@Override
 	public boolean contains(Entity entity){
-		try
-        {
+		try{
             return em.contains(entity);
-        }
-        catch(Exception e)
-        {
+        }catch(Exception e){
             return false;
         }
 	}

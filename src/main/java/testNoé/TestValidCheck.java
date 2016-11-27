@@ -14,10 +14,11 @@ public class TestValidCheck {
 
 	public static void main(String[] args) {
 		ItemValidator itv = ValidatorFactory.createItemValidator();
+		System.out.println(itv);
 		Item i1 = new Item();
 		i1.setTitle("Un Stylo bleu");
 		itv.setEntity(i1);
-		if(itv.validate()){
+		/*if(itv.validate()){
 			System.out.println("Objet Valide");
 		}else{
 			System.out.println("Objet Non Valide");
@@ -25,7 +26,7 @@ public class TestValidCheck {
 			for( ConstraintViolation<Item> v : violations){
 				System.out.println(v.getMessage());
 			}
-		}
+		}*/
 
 	}
 

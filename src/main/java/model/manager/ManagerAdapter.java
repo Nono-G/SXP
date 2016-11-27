@@ -47,5 +47,23 @@ public class ManagerAdapter<Entity> implements Manager<Entity>{
 	public void end() {
 		em.end();
 	}
+
+	@Override
+	public void remove(Entity entity) {
+		em.remove(entity);
+		
+	}
+
+	@Override
+	public void contains(Entity entity, ManagerListener<Entity> l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void watchlist() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
