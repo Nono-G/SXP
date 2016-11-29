@@ -14,6 +14,7 @@ public class TestVoirTousObjets {
 		ism.findAll();
 		dumpWL(ism);
 		ism.end();
+		System.out.println("Fini");
 	}
 	
 	public static void dumpWL(ItemSyncManager ism){
