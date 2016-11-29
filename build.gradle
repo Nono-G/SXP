@@ -25,6 +25,9 @@ jar {
 sourceSets.main.resources.srcDirs += ["src/main/ressources"]
 
 dependencies {
+	compile 'org.hibernate:hibernate-validator:5.3.3.Final'
+	compile 'javax.el:javax.el-api:2.2.4'
+	compile 'org.glassfish.web:javax.el:2.2.4'
 	compile 'org.apache.commons:commons-collections4:4.0'
 	compile 'org.eclipse.jetty:jetty-server:9.2.3.v20140905'
 	compile 'org.eclipse.jetty:jetty-servlet:9.2.3.v20140905'

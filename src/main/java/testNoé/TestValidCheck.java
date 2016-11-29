@@ -18,7 +18,7 @@ public class TestValidCheck {
 		Item i1 = new Item();
 		i1.setTitle("Un Stylo bleu");
 		itv.setEntity(i1);
-		/*if(itv.validate()){
+		if(itv.validate()){
 			System.out.println("Objet Valide");
 		}else{
 			System.out.println("Objet Non Valide");
@@ -26,8 +26,8 @@ public class TestValidCheck {
 			for( ConstraintViolation<Item> v : violations){
 				System.out.println(v.getMessage());
 			}
-		}*/
-
+		}
+		System.out.println("Fini");
 	}
 
 }
