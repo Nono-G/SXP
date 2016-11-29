@@ -1,6 +1,7 @@
 package model.manager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import model.api.Manager;
 import model.api.ManagerListener;
@@ -34,36 +35,33 @@ public class ManagerAdapter<Entity> implements Manager<Entity>{
 	}
 
 	@Override
-	public void persist(Entity entity) {
-		em.persist(entity);
+	public boolean persist(Entity entity) {
+		return em.persist(entity);
 	}
 
 	@Override
-	public void begin() {
-		em.begin();
+	public boolean begin() {
+		return em.begin();
 	}
 
 	@Override
-	public void end() {
-		em.end();
+	public boolean end() {
+		return em.end();
 	}
 
 	@Override
-	public void remove(Entity entity) {
-		em.remove(entity);
-		
+	public boolean remove(Entity entity) {
+		return em.remove(entity);
 	}
 
 	@Override
-	public void contains(Entity entity, ManagerListener<Entity> l) {
-		// TODO Auto-generated method stub
-		
+	public boolean contains(Entity entity) {
+		return em.contains(entity);
 	}
 
 	@Override
-	public void watchlist() {
-		// TODO Auto-generated method stub
-		
+	public Collection<Entity> watchlist() {
+		return em.watchlist();
 	}
 	
 }
