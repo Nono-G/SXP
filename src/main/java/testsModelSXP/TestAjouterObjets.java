@@ -1,4 +1,4 @@
-package testNoé;
+package testsModelSXP;
 
 import java.math.BigInteger;
 import java.util.Date;

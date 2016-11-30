@@ -1,4 +1,4 @@
-package testDamien;
+package testsModelSXP;
 
 import java.util.Date;
 

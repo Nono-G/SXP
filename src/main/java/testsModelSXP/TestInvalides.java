@@ -1,4 +1,4 @@
-package testNoé;
+package testsModelSXP;
 
 import model.api.ItemSyncManager;
 import model.factory.SyncManagerFactory;

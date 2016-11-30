@@ -1,4 +1,4 @@
-package testNoé;
+package testsModelSXP;
 
 import java.util.Set;
 
