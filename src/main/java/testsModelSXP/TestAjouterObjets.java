@@ -52,8 +52,11 @@ public class TestAjouterObjets {
 		ism.persist(i3);
 		ism.persist(i2);
 		ism.persist(i1);
-		//ism.persist(i5);
-		
+		//*****************************
+		// Commenter ou décommenter la ligne ci-dessous permettra de faire fonctionner ou échouer
+		// l'insertion.
+		//ism.persist(i5);//Cet objet n'es pas valide et va faire échouer end et persist
+		//*****************************
 		if(ism.end()){
 			System.out.println("Changements repercutés dans la base");
 		}else{
