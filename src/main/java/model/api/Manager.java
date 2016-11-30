@@ -50,7 +50,8 @@ public interface Manager<Entity> {
 	
 	/**
 	 * Remove an entity from the DB
-	 * @param entity
+	 * @param an entity
+	 * @return True if the entity has been removed, false otherwise
 	 */
 	public boolean remove(Entity entity);
 	
@@ -65,4 +66,13 @@ public interface Manager<Entity> {
 	 * Returns a list of the currentrly "managed" entities.
 	 */
 	public Collection<Entity> watchlist();
+	
+	
+	/**
+	 * Checks if all the managed entities (i.e. the "watchlist") are valid entities.
+	 * If the validation at persist() call is activated (default) this will always return true.
+	 * Go to bin/META-INF/persistence.xml to change validation mode
+	 * @return true if all the managed entities are valid, false otherwise
+	 */
+	public boolean check();
 }

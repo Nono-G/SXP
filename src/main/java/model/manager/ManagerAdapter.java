@@ -63,5 +63,10 @@ public class ManagerAdapter<Entity> implements Manager<Entity>{
 	public Collection<Entity> watchlist() {
 		return em.watchlist();
 	}
+
+	@Override
+	public boolean check() {
+		return em.check();
+	}
 	
 }

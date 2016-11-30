@@ -2,6 +2,8 @@ package model.api;
 
 import java.util.Collection;
 
+import model.validator.EntityValidator;
+
 /**
  * General interface for entity managers
  * @author Julien Prudhomme
@@ -61,11 +63,12 @@ public interface SyncManager<Entity> {
 	public boolean end();
 	
 	/**
-	 * 
-	 * Vérifie à l'aide d'un validateur si les éléments de la Watchlist sont valides ou non.
-	 * sous quelle forme renvoyer le résultat ?
+	 * Checks if all the managed entities (i.e. the "watchlist") are valid entities.
+	 * If the validation at persist() call is activated (default) this will always return true.
+	 * Go to bin/META-INF/persistence.xml to change validation mode
+	 * @return true if all the managed entities are valid, false otherwise
 	 */
-	public void check();
+	public boolean check();
 	
 	/**
 	 * Checks if a given entity is in 'managed' state for this manager.
@@ -75,12 +78,14 @@ public interface SyncManager<Entity> {
 	public boolean contains(Entity entity);
 	
 	/**
-	 * Gives a list of the entities currently in a watched state.
+	 * Gives a list of the entities currently in 'managed' state.
 	 */
 	public Collection<Entity> watchlist();
 	
 	/**
-	 * Supprimer une entité
+	 * Remove an entity from the DB
+	 * @param an entity
+	 * @return True if the entity has been removed, false otherwise
 	 */
 	public boolean remove(Entity entity);
 }

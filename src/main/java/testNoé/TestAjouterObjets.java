@@ -54,7 +54,11 @@ public class TestAjouterObjets {
 		ism.persist(i1);
 		//ism.persist(i5);
 		
-		ism.end();
+		if(ism.end()){
+			System.out.println("Changements repercutés dans la base");
+		}else{
+			System.out.println("ERREUR lors de end, changements non repercutés");
+		}
 		System.out.println("Fini");
 	}
 

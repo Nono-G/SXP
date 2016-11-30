@@ -132,5 +132,10 @@ public class NetworkItemManagerDecorator extends ManagerDecorator<Item>{
 	public boolean end() {
 		return super.end();
 	}
+
+	@Override
+	public boolean check() {
+		return super.check();
+	}
 	
 }

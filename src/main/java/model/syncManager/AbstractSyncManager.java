@@ -1,6 +1,7 @@
 package model.syncManager;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -11,8 +12,12 @@ import javax.persistence.RollbackException;
 
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 
+import model.factory.ValidatorFactory;
+import model.validator.EntityValidator;
+import model.validator.ItemValidator;
 
-public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity>{
+
+public abstract class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity>{
 	private EntityManagerFactory factory;
 	private EntityManager em;
 	private Class<?> theClass;
@@ -86,16 +91,26 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
             return false;
         }
 	}
+	
+	protected abstract EntityValidator getAdaptedValidator();
 
 	@Override
-	public void check(){
-		//néant
+	public boolean check(){
+		EntityValidator ev = this.getAdaptedValidator();
+		boolean ret = true;
+		Collection<Entity> wl = this.watchlist();
+		for (Iterator iterator = wl.iterator(); iterator.hasNext();) {
+			Entity entity = (Entity) iterator.next();
+			ev.setEntity(entity);
+			ret = ret && ev.validate();
+		}
+		return ret;
 	}
 	
 	@Override
 	public boolean end() {
-		//Valider toutes les entités de la watchlist
-		//  A FAIRE
+		//Validate all the entities in the Watchlist
+		if(! this.check()){return false;}
 		try{
 			em.getTransaction().commit();
 			em.clear(); //Ici on détache toutes les entitées. Devrait-on plutot fermer (em.close()) ?
@@ -104,8 +119,8 @@ public class AbstractSyncManager<Entity> implements model.api.SyncManager<Entity
 			//Rollback Exception est une "runtime" donc pas obligatoire de la catcher
 			//Renvoyer un truc pour signaler l'erreur ???
 			//Ici il n'est pas possible de donner plus d'informations que Vrai ou Faux, cf l'atomicité des transactions SQL
-			//return false;
-			throw r;
+			return false;
+			//throw r;//DEBUG
 		}
 		//End doit vider la WL puisque contains ne peut pas être appelé sur une transaction fermée.
 	}

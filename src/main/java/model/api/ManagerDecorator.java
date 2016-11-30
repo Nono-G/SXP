@@ -87,5 +87,13 @@ public abstract class ManagerDecorator<Entity> implements Manager<Entity>{
 	public boolean contains(Entity entity){
 		return em.contains(entity);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean check(){
+		return em.check();
+	}
 
 }
